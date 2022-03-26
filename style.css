@@ -1,0 +1,27 @@
+body {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #faf8ef;
+    color: #776e65;
+}
+
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 400px;
+    height: 400px;
+    background-color: #bbada0;
+    padding: 5px;
+    margin: 0 auto;
+}
+
+.grid div {
+    width: 90px;
+    height: 40px;
+    background-color: #EEE4DA;
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin: 5px;
+    padding: 25px 0;
+}
