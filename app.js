@@ -18,8 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i=1; i<=2; i++) {
             generate();
         }
+        addLevelClass();
+
+        document.addEventListener('keyup', control);
     }
-    createBoard();
 
     //* Generate a number rundomly
     function generate() {
@@ -41,29 +43,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function moveHorizontally(direction) {
         for (let i=0; i < (width*width); i++) {
             if (i % width === 0) {
-                // console.log('------------------------------');
 
                 const row = [];
                 for (let j=0; j < width; j++) {
                     row.push(parseInt(squares[i+j].innerHTML));
                 }
 
-                // let totalOne = squares[i].innerHTML;
-                // let totalTwo = squares[i+1].innerHTML;
-                // let totalThree = squares[i+2].innerHTML;
-                // let totalFour = squares[i+3].innerHTML;
-
-                // let row = [
-                //     parseInt(totalOne),
-                //     parseInt(totalTwo),
-                //     parseInt(totalThree),
-                //     parseInt(totalFour),
-                // ];
-
                 let filteredRow = row.filter(num => num);
-
-                let missing = width - filteredRow.length;
-                let zeros = Array(missing).fill(0);
+                let zeros = Array(width - filteredRow.length).fill(0);
                 
                 let newRow = [];
                 if (direction == 'right')
@@ -80,29 +67,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function moveVertically(direction) {
         for (let i=0; i < width; i++) {
-            // console.log('------------------------------');
 
             const column = [];
             for (let j=0; j < width; j++) {
                 column.push(parseInt(squares[i+(width*j)].innerHTML));
             }
 
-            // let totalOne   = squares[i+(width*0)].innerHTML;
-            // let totalTwo   = squares[i+(width*1)].innerHTML;
-            // let totalThree = squares[i+(width*2)].innerHTML;
-            // let totalFour  = squares[i+(width*3)].innerHTML;
-
-            // let column = [
-            //     parseInt(totalOne),
-            //     parseInt(totalTwo),
-            //     parseInt(totalThree),
-            //     parseInt(totalFour),
-            // ];
-
             let filteredColumn = column.filter(num => num);
-            
-            let missing = width - filteredColumn.length;
-            let zeros = Array(missing).fill(0);
+            let zeros = Array(width - filteredColumn.length).fill(0);
 
             let newColumn = [];
             if (direction == 'down')
@@ -150,44 +122,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function control(e) {
         if (e.keyCode === 39) {
-            keyRight();
+            // keyRight();
+            moveHorizontally('right');
+            combineRow();
+            moveHorizontally('right');
+            generate();
         } else if (e.keyCode === 37) {
-            keyLeft();
+            // keyLeft();
+            moveHorizontally('left');
+            combineRow();
+            moveHorizontally('left');
+            generate();
         } else if (e.keyCode === 38) {
-            keyUp();
+            // keyUp();
+            moveVertically('up');
+            combineColumn();
+            moveVertically('up');
+            generate();
         } else if (e.keyCode === 40) {
-            keyDown();
+            // keyDown();
+            moveVertically('down');
+            combineColumn();
+            moveVertically('down');
+            generate();
         }
-    }
 
-    document.addEventListener('keyup', control);
-
-    function keyRight() {
-        moveHorizontally('right');
-        combineRow();
-        moveHorizontally('right');
-        generate();
-    }
-
-    function keyLeft() {
-        moveHorizontally('left');
-        combineRow();
-        moveHorizontally('left');
-        generate();
-    }
-
-    function keyDown() {
-        moveVertically('down');
-        combineColumn();
-        moveVertically('down');
-        generate();
-    }
-
-    function keyUp() {
-        moveVertically('up');
-        combineColumn();
-        moveVertically('up');
-        generate();
+        addLevelClass();
     }
 
     function checkForWin() {
@@ -212,4 +172,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function addLevelClass() {
+        for (let i=0; i < squares.length; i++) {
+            switch (parseInt(squares[i].innerHTML)) {
+                case 0: squares[i].className = ' level-0'; break;
+                case 2: squares[i].className = ' level-2'; break;
+                case 4: squares[i].className = ' level-4'; break;
+                case 8: squares[i].className = ' level-8'; break;
+                case 16: squares[i].className = ' level-16'; break;
+                case 32: squares[i].className = ' level-32'; break;
+                case 64: squares[i].className = ' level-64'; break;
+                case 128: squares[i].className = ' level-128'; break;
+                default: squares[i].className = ' level-999'; break;
+            }
+        }
+    }
+
+    createBoard();
 });
